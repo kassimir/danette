@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    :root {
+      --purple: #64425A; /* rgb(100,66,90) */
+      --teal: #377571; /* rgba(55, 117, 113) */
+      --aqua: #6FC0B6; /* rgb(111,192,182) */
+      --grey: #414141; /* rgb(65,65,65) */
+      --gold: #B08841; /* rgb(176,136,65) */
+    }
+
+    body, #modal {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #modal {
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity .5s;
+      z-index: 99;
+      pointer-events: none;
+    }
+
+    #satellite-container {
+      position: absolute;
+      margin: 0 auto;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      background: url("logo.jpeg") center no-repeat;
+      width: 725px;
+      height: 760px;
+    }
+
+    .satellite {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      filter: sepia(1);
+      cursor: pointer;
+      transition: filter 0.5s;
+    }
+
+    #info-container {
+      position: absolute;
+      border-radius: 50%;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #info {
+      width: 60%;
+      height: 60%;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    #modalimage {
+        max-width: 80%;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <title>D's Designs</title>
+</head>
+<body>
+<div id="satellite-container">
+  <div class="satellite">
+    <img src="https://api.time.com/wp-content/uploads/2020/09/time-100-Selena-Gomez.jpg" width="200" onclick="showImage(this.src)">
+  </div>
+  <div class="satellite">
+    <img src="https://www.indiewire.com/wp-content/uploads/2022/11/Selena-Gomez.jpg?w=780" width="200" onclick="showImage(this.src)">
+  </div>
+  <div class="satellite">
+    <img
+      src="data:image/jpeg;base64,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"
+      width="200" onclick="showImage(this.src)">
+  </div>
+  <div class="satellite">
+    <img src="https://cdn.britannica.com/81/160781-050-8B7BF24D/Selena-Gomez-2010.jpg?w=400&h=300&c=crop" width="200" onclick="showImage(this.src)">
+  </div>
+  <div class="satellite">
+    <img
+      src="https://media1.popsugar-assets.com/files/thumbor/R7I0ciwJfmSrYZCxHpoqGbkAuSY/0x0:2000x2000/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2022/05/13/932/n/1922398/18fb38a1627ecc34e1ec97.17044749_/i/Selena-Gomez-Relationship-History.jpg"
+      width="200" onclick="showImage(this.src)">
+  </div>
+  <div class="satellite">
+    <img
+      src="https://akns-images.eonline.com/eol_images/Entire_Site/202288/rs_1200x1200-220908155209-1200.selena-gomez-my-mind-me-doc.jpg?fit=around%7C1080:1080&output-quality=90&crop=1080:1080;center,top"
+      width="200" onclick="showImage(this.src)">
+  </div>
+</div>
+<div id="info-container">
+  <p id="info"></p>
+</div>
+<div id="modal" onclick="closeModal()">
+  <img id="modalimage" src="https://media1.popsugar-assets.com/files/thumbor/R7I0ciwJfmSrYZCxHpoqGbkAuSY/0x0:2000x2000/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2022/05/13/932/n/1922398/18fb38a1627ecc34e1ec97.17044749_/i/Selena-Gomez-Relationship-History.jpg" onclick="showImage(this.src)">
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
